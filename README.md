@@ -1,3 +1,13 @@
+# Build status
+
+[![Java CI](https://github.com/alvaro-blazquez/developer-joyofenergy-java/actions/workflows/main.yml/badge.svg)](https://github.com/alvaro-blazquez/developer-joyofenergy-java/actions/workflows/main.yml)
+
+## Develop a feature/ticket instructions
+* Create branch from master called feature/NameOfTheFeatureTicket
+* Develop using TDD
+* Push
+* Check pipeline is passing
+
 # Welcome to PowerDale
 
 PowerDale is a small town with around 100 residents. Most houses have a smart meter installed that can save and send
