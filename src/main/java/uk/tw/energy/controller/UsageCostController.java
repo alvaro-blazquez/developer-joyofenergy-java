@@ -13,8 +13,12 @@ public class UsageCostController {
     }
 
     public ResponseEntity<Integer> lastWeekUsageCost(String meterId) {
-        int result = usageCostService.calculateLastWeekCostFor(meterId);
-        ResponseEntity<Integer> response = new ResponseEntity<>(result, HttpStatus.OK);
-        return response;
+        try {
+            int result = usageCostService.calculateLastWeekCostFor(meterId);
+            ResponseEntity<Integer> response = new ResponseEntity<>(result, HttpStatus.OK);
+            return response;
+        } catch (Exception ex) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
