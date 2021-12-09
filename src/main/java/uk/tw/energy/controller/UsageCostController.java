@@ -2,7 +2,6 @@ package uk.tw.energy.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import uk.tw.energy.service.UsageCostService;
 
 public class UsageCostController {

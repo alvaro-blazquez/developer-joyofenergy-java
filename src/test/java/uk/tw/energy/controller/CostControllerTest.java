@@ -1,5 +1,6 @@
 package uk.tw.energy.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,14 +20,20 @@ public class CostControllerTest {
     @Mock
     UsageCostService usageCostService;
 
+    private UsageCostController usageCostController;
+
+    @BeforeEach
+    public void setUp() {
+        usageCostController = new UsageCostController(usageCostService);
+    }
+
     @ParameterizedTest
     @ValueSource(ints = {100, 200})
     public void calculate_last_week_cost_for_an_smart_meter(int givenALastWeekCost) throws Exception {
         String givenASmartMeterId = "anySmartMeterId";
         when(usageCostService.calculateLastWeekCostFor(givenASmartMeterId)).thenReturn(givenALastWeekCost);
 
-        UsageCostController costController = new UsageCostController(usageCostService);
-        ResponseEntity<Integer> actualUsageCost = costController.lastWeekUsageCost(givenASmartMeterId);
+        ResponseEntity<Integer> actualUsageCost = usageCostController.lastWeekUsageCost(givenASmartMeterId);
 
         ResponseEntity<Integer> expected = new ResponseEntity<>(givenALastWeekCost, HttpStatus.OK);
         assertThat(actualUsageCost).isEqualTo(expected);
@@ -37,7 +44,6 @@ public class CostControllerTest {
         String givenASmartMeterId = "anySmartMeterId";
         when(usageCostService.calculateLastWeekCostFor(givenASmartMeterId)).thenThrow(new Exception("Oh my god"));
 
-        UsageCostController usageCostController = new UsageCostController(usageCostService);
         ResponseEntity<Integer> actualUsageCost = usageCostController.lastWeekUsageCost(givenASmartMeterId);
 
         ResponseEntity<Integer> expected = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
