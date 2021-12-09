@@ -22,6 +22,8 @@ public class CostControllerTest {
 
     private UsageCostController usageCostController;
 
+    private String givenASmartMeterId = "anySmartMeterId";
+
     @BeforeEach
     public void setUp() {
         usageCostController = new UsageCostController(usageCostService);
@@ -30,7 +32,6 @@ public class CostControllerTest {
     @ParameterizedTest
     @ValueSource(ints = {100, 200})
     public void calculate_last_week_cost_for_an_smart_meter(int givenALastWeekCost) throws Exception {
-        String givenASmartMeterId = "anySmartMeterId";
         when(usageCostService.calculateLastWeekCostFor(givenASmartMeterId)).thenReturn(givenALastWeekCost);
 
         ResponseEntity<Integer> actualUsageCost = usageCostController.lastWeekUsageCost(givenASmartMeterId);
@@ -41,7 +42,6 @@ public class CostControllerTest {
 
     @Test
     public void do_not_calculate_last_week_cost_when_calculation_fails() throws Exception {
-        String givenASmartMeterId = "anySmartMeterId";
         when(usageCostService.calculateLastWeekCostFor(givenASmartMeterId)).thenThrow(new Exception("Oh my god"));
 
         ResponseEntity<Integer> actualUsageCost = usageCostController.lastWeekUsageCost(givenASmartMeterId);
