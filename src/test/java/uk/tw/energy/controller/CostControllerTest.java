@@ -2,6 +2,8 @@ package uk.tw.energy.controller;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
@@ -17,10 +19,10 @@ public class CostControllerTest {
     @Mock
     UsageCostService usageCostService;
 
-    @Test
-    public void calculate_last_week_cost_for_an_smart_meter() {
+    @ParameterizedTest
+    @ValueSource(ints = {100})
+    public void calculate_last_week_cost_for_an_smart_meter(int givenALastWeekCost) {
         String givenASmartMeterId = "anySmartMeterId";
-        Integer givenALastWeekCost = 100;
         when(usageCostService.calculateLastWeekCostFor(givenASmartMeterId)).thenReturn(givenALastWeekCost);
 
         UsageCostController costController = new UsageCostController(usageCostService);
