@@ -31,4 +31,16 @@ public class CostControllerTest {
         ResponseEntity<Integer> expected = new ResponseEntity<>(givenALastWeekCost, HttpStatus.OK);
         assertThat(actualUsageCost).isEqualTo(expected);
     }
+
+    @Test
+    public void do_not_calculate_last_week_cost_when_calculation_fails() {
+        String givenASmartMeterId = "anySmartMeterId";
+        when(usageCostService.calculateLastWeekCostFor(givenASmartMeterId)).thenThrow(new Exception("Oh my god"));
+
+        UsageCostController usageCostController = new UsageCostController(usageCostService);
+        ResponseEntity<Integer> actualUsageCost = usageCostController.lastWeekUsageCost(givenASmartMeterId);
+
+        ResponseEntity<Integer> expected = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        assertThat(actualUsageCost).isEqualTo(expected);
+    }
 }
