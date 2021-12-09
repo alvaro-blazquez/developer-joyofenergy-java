@@ -1,25 +1,20 @@
 package uk.tw.energy.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import uk.tw.energy.service.AccountService;
-import uk.tw.energy.service.PricePlanService;
+import uk.tw.energy.service.UsageCostService;
 
 public class UsageCostController {
-    private AccountService accountService;
+    private final UsageCostService usageCostService;
 
-    public UsageCostController(AccountService accountService) {
-        this.accountService = accountService;
+    public UsageCostController(UsageCostService usageCostService) {
+        this.usageCostService = usageCostService;
     }
 
-    public void lastWeekUsageCost(String meterId) {
-        // Get Plan
-        String pricePlan = this.accountService.getPricePlanIdForSmartMeterId(meterId);
-        // Get Last week DateTimes
-        // Calculate usage cost
-//        - Unit of meter readings : kW (KilloWatt)
-//                - Unit of Time : Hour (h)
-//        - Unit of Energy Consumed : kW x Hour = kWh
-//                - Unit of Tariff : $ per kWh (ex 0.2 $ per kWh)
-        throw new NotImplementedException();
+    public ResponseEntity<Integer> lastWeekUsageCost(String meterId) {
+        int result = usageCostService.calculateLastWeekCostFor(meterId);
+        ResponseEntity<Integer> response = new ResponseEntity<>(100, HttpStatus.OK);
+        return response;
     }
 }
