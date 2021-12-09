@@ -20,7 +20,7 @@ public class CostControllerTest {
     UsageCostService usageCostService;
 
     @ParameterizedTest
-    @ValueSource(ints = {100})
+    @ValueSource(ints = {100, 200})
     public void calculate_last_week_cost_for_an_smart_meter(int givenALastWeekCost) {
         String givenASmartMeterId = "anySmartMeterId";
         when(usageCostService.calculateLastWeekCostFor(givenASmartMeterId)).thenReturn(givenALastWeekCost);
